@@ -1,0 +1,3 @@
+title: Test
+markdown: kramdown
+exclude: ['Gemfile', 'Gemfile.lock', 'node_modules', 'README.md']
