@@ -5,27 +5,23 @@
 </head>
 <body>
   <h1>My Notes</h1>
-  <ul id="note-list">
-    <!-- The list of subpage links will be dynamically added here -->
-  </ul>
+  <ul id="note-list"></ul>
 
   <script>
     // Fetch the list of files in the repository
-    fetch('https://github.com/Ming5980/hello_web/tree/main/subjects')
+    fetch('https://api.github.com/repos/Ming5980/hello_web/subjects/')
       .then(response => response.json())
-      .then(files => {
-        // Filter the files to include only the HTML files
-        const htmlFiles = files.filter(file => file.name.endsWith('.html'));
+      .then(data => {
+        // Filter the response to include only the note files (e.g., .md, .txt, etc.)
+        const noteFiles = data.filter(item => item.name.endsWith('.md') || item.name.endsWith('.txt'));
 
-        // Generate the subpage links
+        // Generate the list of subpage links
         const noteList = document.getElementById('note-list');
-        htmlFiles.forEach(file => {
-          const fileName = file.name.replace('.html', '');
-          const link = document.createElement('a');
-          link.textContent = fileName;
-          link.href = file.download_url;
-
+        noteFiles.forEach(noteFile => {
           const listItem = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = noteFile.download_url;
+          link.textContent = noteFile.name;
           listItem.appendChild(link);
           noteList.appendChild(listItem);
         });
@@ -33,3 +29,4 @@
   </script>
 </body>
 </html>
+
